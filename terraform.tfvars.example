@@ -1,0 +1,42 @@
+# Copy to terraform.tfvars and adjust. Do not commit secrets.
+
+project_name  = "resource-lens"
+environment   = "dev"
+aws_region    = "us-east-1"
+vpc_cidr      = "10.0.0.0/16"
+
+neptune_instance_class     = "db.r6g.large"
+opensearch_instance_type   = "t3.medium.search"
+neptune_engine_version     = "1.3.1.0"
+opensearch_engine_version  = "OpenSearch_2.11"
+
+ecs_task_cpu       = 512
+ecs_task_memory    = 1024
+ecs_desired_count  = 1
+
+lambda_reserved_concurrency = null # set e.g. 10 to cap concurrency
+lambda_memory_size          = 256
+
+enable_waf              = true
+enable_xray             = true
+cloudfront_price_class  = "PriceClass_100"
+
+athena_workgroup_name = "cost-analysis"
+cur_report_name       = "daily-cur"
+
+# CodeBuild: use S3 zip in discovery bucket, or switch to GITHUB / CODECOMMIT
+codebuild_source_type     = "S3"
+codebuild_source_location = ""
+# Upload source to this key before triggering builds (or adjust in module).
+# codebuild_s3_object_key = "source/build.zip"
+
+# Optional EventBridge schedule for Cost Lambda (cron or rate)
+cost_lambda_schedule_expression = "" # e.g. "cron(0 12 * * ? *)"
+
+# Amplify: set repository URL or leave empty for app without Git connection
+amplify_repository_url           = ""
+amplify_connect_to_web_ui_bucket   = false
+
+tags = {
+  Owner = "platform"
+}
